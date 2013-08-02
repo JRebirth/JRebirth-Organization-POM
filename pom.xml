@@ -1,251 +1,295 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jrebirth</groupId>
-    <artifactId>org.jrebirth.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+	<groupId>org.jrebirth</groupId>
+	<artifactId>jrebirth-parent</artifactId>
+	<version>1.0.0-Final</version>
+	<packaging>pom</packaging>
 
+	<name>JRebirth Parent POM</name>
+	<url>http://www.jrebirth.org</url>
+	<description>Parent POM file for JRebirth Framework</description>
 
-    <name>Mastering Tables</name>
-    <url>http://www.jrebirth.org</url>
-    <description>Promary Pom file for JRebirth Framework</description>
-	
-		<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<storepass>defaultpass</storepass>
+		<keypass>defaultpass</keypass>
 
-        <storepass>defaultpass</storepass>
-        <keypass>defaultpass</keypass>
-		
-        <deployUrl>http://apps.jrebirth.org</deployUrl>
-        <deployPath>${project.artifactId}/${project.version}</deployPath>
+		<deployUrl>http://apps.jrebirth.org</deployUrl>
+		<deployPath>${project.artifactId}/${project.version}</deployPath>
 
-        <jnlpFilename></jnlpFilename>
-        <appClass></appClass>
+		<jnlpFilename></jnlpFilename>
+		<appMainClass></appMainClass>
 
-        <appletWidth>800</appletWidth>
-        <appletHeight>600</appletHeight>
+		<appletWidth>800</appletWidth>
+		<appletHeight>600</appletHeight>
 
-        <updateCheck>background</updateCheck>
-        <updatePolicy>prompt-update</updatePolicy>
-		
-		<version.jrebirth.release>1.7.4</version.jrebirth.release>
-		<version.jrebirth.snapshot>1.7.5-SNAPSHOT</version.jrebirth.snapshot>
-		
+		<updateCheck>background</updateCheck>
+		<updatePolicy>prompt-update</updatePolicy>
+
+		<version.jrebirth.release>0.7.4</version.jrebirth.release>
+		<version.jrebirth.snapshot>0.7.5-SNAPSHOT</version.jrebirth.snapshot>
+
 		<repo.jrebirth.release>http://repo.jrebirth.org/jrebirth-release-local</repo.jrebirth.release>
 		<repo.jrebirth.snapshot>http://repo.jrebirth.org/jrebirth-snapshot-local</repo.jrebirth.snapshot>
-		
+
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
+
+		<maven.min.version>3.0</maven.min.version>
+
+		<jdk.min.version>${maven.compiler.source}</jdk.min.version>
+
+		<downloadSources>false</downloadSources>
+
+		<sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
+
 		<version.junit>4.11</version.junit>
+		<version.logback>1.0.6</version.logback>
 
-    </properties>
+		<url.jrebirth.site>http://www.jrebirth.org</url.jrebirth.site>
+		<url.issue.management>https://github.com/JRebirth/JRebirth/issues</url.issue.management>
+		<url.jrebirth.site>ftp://jrebirth.org/sites/${project.groupId}.${project.artifactId}-${project.version}</url.jrebirth.site>
 
-    <issueManagement>
-        <system>GitHub Issues</system>
-        <url>https://github.com/JRebirth/MasteringTables</url>
-    </issueManagement>
+	</properties>
 
-    <ciManagement>
-        <system>Jenkins</system>
-        <url>http://ci.jrebirth.org/job/MasteringTables-master/</url>
-    </ciManagement>
+	<prerequisites>
+		<maven>${maven.min.version}</maven>
+	</prerequisites>
 
-    <scm>
-        <connection>scm:git:git://github.com/JRebirth/MasteringTables.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/JRebirth/MasteringTables.git</developerConnection>
-        <url>https://github.com/JRebirth/MasteringTables</url>
-    </scm>
 
-    <organization>
-        <name>JRebirth Open Group</name>
-        <url>http://www.jrebirth.org</url>
-    </organization>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>${url.issue.management}</url>
+	</issueManagement>
 
-    <licenses>
-        <license>
-            <name>Apache License</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-            <distribution>repo</distribution>
-            <comments>Version 2.0, January 2004</comments>
-        </license>
-    </licenses>
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>${url.issue.management}</url>
+	</ciManagement>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>${basedir}/src/main/java</directory>
-                <includes>
-                    <include>**/*.fxml</include>
-                    <include>**/*.txt</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>**/*.*</include>
-                </includes>
-            </resource>
-        </resources>
+	<scm>
+		<connection>scm:git:git@ithub.com/JRebirth/JRebirth-Parent-POM.git</connection>
+		<developerConnection>scm:git:git@ithub.com/JRebirth/JRebirth-Parent-POM.git</developerConnection>
+		<url>http://ithub.com/JRebirth/JRebirth-Parent-POM</url>
+	</scm>
 
-        <plugins>
-                    
-                    
+	<organization>
+		<name>JRebirth Open Group</name>
+		<url>${url.jrebirth.site}</url>
+	</organization>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <encoding>UTF-8</encoding>
-                    <debug>false</debug>
-                    <showDeprecation>true</showDeprecation>
-                </configuration>
-            </plugin>
+	<licenses>
+		<license>
+			<name>Apache License</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+			<distribution>repo</distribution>
+			<comments>Version 2.0, January 2004</comments>
+		</license>
+	</licenses>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <JavaFX-Version>2.0</JavaFX-Version>
-                            <Main-Class>${appClass}</Main-Class>
-                            <JavaFX-Application-Class>${appClass}</JavaFX-Application-Class>
-                            <implementation-version>1.0</implementation-version>
-                            <!-- not automated yet -->
-                            <JavaFX-Class-Path></JavaFX-Class-Path>
-                        </manifestEntries>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+	<build>
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>webstart-maven-plugin</artifactId>
-                <version>1.0-beta-3</version>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<debug>false</debug>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
 
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jnlp</goal> 
-                        </goals>
-                    </execution>
-                </executions>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<JavaFX-Version>2.2</JavaFX-Version>
+							<Main-Class>${appMainClass}</Main-Class>
+							<JavaFX-Application-Class>${appMainClass}</JavaFX-Application-Class>
+							<implementation-version>1.0</implementation-version>
+							<JavaFX-Class-Path></JavaFX-Class-Path>
+						</manifestEntries>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 
-                <configuration>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce-java-version</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<message>To build this project JDK ${jdk.min.version} (or
+										greater) is required. Please install it.</message>
+									<version>${jdk.min.version}</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+					<execution>
+						<id>enforce-maven-version</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<message>To build this project Maven ${maven.min.version} (or
+										greater) is required. Please install it.</message>
+									<version>${maven.min.version}</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-                    <jnlpFiles>${jrebirth.jnlp.filename}</jnlpFiles>
-                    <excludeTransitive>false</excludeTransitive>
-                    <libPath>lib</libPath>
+			<plugin>
+				<groupId>org.codehaus.sonar</groupId>
+				<artifactId>sonar-maven3-plugin</artifactId>
+				<version>3.3.2</version>
+			</plugin>
 
-                    <resourcesDirectory>${project.basedir}/src/main/jnlp/resources</resourcesDirectory>
-                    <codebase>${deployUrl}/${deployPath}</codebase>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>get-build-timestamp</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>create-timestamp</goal>
+						</goals>
+						<configuration>
+							<timestampFormat>EEE, d MMM yyyy HH:mm:ss Z</timestampFormat>
+							<timestampPropertyName>build.datetime</timestampPropertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>get-scm-revision</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+						<configuration>
+							<doCheck>false</doCheck>
+							<doUpdate>false</doUpdate>
+							<revisionOnScmFailure>UNKNOWN</revisionOnScmFailure>
+							<getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-                    <jnlp>
-                        <!-- <inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath> <inputTemplate>src/main/jnlp/template.vm</inputTemplate> -->
-                        <outputFile>${jnlpFilename}</outputFile>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<stylesheet>maven</stylesheet>
+					<detectOfflineLinks>false</detectOfflineLinks>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 
-                        <mainClass>${appClass}</mainClass>
-                        <offlineAllowed>true</offlineAllowed>
-                    </jnlp>
+			</plugin>
 
-                    <sign>
-                        <keystore>${basedir}/masteringTables.jks</keystore>
-                        <!-- MUST BE PROVIDED BY COMMAND LINE ARGUMENTS -->
-                        <!-- -Dstorepass=xxx -Dkeypass=xxx -->
-                        <keypass>${keypass}</keypass>
-                        <storepass>${storepass}</storepass>
-                        <!-- <storetype>fillme</storetype> -->
-                        <alias>masteringtables</alias>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-                        <validity>360</validity>
-                        <dnameCn>www.jrebirth.org</dnameCn>
-                        <dnameOu>None</dnameOu>
-                        <dnameO>JRebirth</dnameO>
-                        <dnameL>Toulouse</dnameL>
-                        <dnameSt>HG</dnameSt>
-                        <dnameC>FR</dnameC>
+		</plugins>
 
-                        <verify>true</verify>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ftp</artifactId>
+				<version>2.2</version>
+			</extension>
+		</extensions>
+	</build>
 
-                        <keystoreConfig>
-                            <delete>true</delete>
-                            <gen>true</gen>
-                        </keystoreConfig>
-                    </sign>
+	<dependencies>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${version.logback}</version>
+		</dependency>
 
-                    <pack200>true</pack200>
-                    <gzip>true</gzip>
+		<dependency>
+			<groupId>org.jrebirth</groupId>
+			<artifactId>core</artifactId>
+			<version>${version.jrebirth.release}</version>
+		</dependency>
 
-                    <outputJarVersions>false</outputJarVersions>
-                    <install>false</install>
-                    <verbose>true</verbose>
-                </configuration>
-            </plugin>
+	</dependencies>
 
-            <!-- Project Quality -->
-            <plugin>
-                <groupId>org.codehaus.sonar</groupId>
-                <artifactId>sonar-maven3-plugin</artifactId>
-                <version>3.3.2</version>
-            </plugin>
-        </plugins>
+	<distributionManagement>
+		<repository>
+			<id>JRebirth-Release</id>
+			<name>JRebirth Releases Repository</name>
+			<url>${repo.jrebirth.release}</url>
+		</repository>
 
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>2.2</version>
-            </extension>
-        </extensions>
-    </build>
+		<snapshotRepository>
+			<id>JRebirth-Snapshot</id>
+			<name>JRebirth Snasphots Repository</name>
+			<url>${repo.jrebirth.snapshot}</url>
+		</snapshotRepository>
 
-    <dependencies>
-        <!-- Use logback logger -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.6</version>
-        </dependency>
+		<site>
+			<id>JRebirth_Sites</id>
+			<name>JRebirth Sites</name>
+			<url></url>
+		</site>
 
-        <dependency>
-            <groupId>org.jrebirth</groupId>
-            <artifactId>core</artifactId>
-            <version>0.7.4-SNAPSHOT</version>
-        </dependency>
+	</distributionManagement>
 
-    </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>JRebirth-Release</id>
-            <name>JRebirth Releases Repository</name>
-            <url>http://repo.jrebirth.org/jrebirth-release-local</url>
-        </repository>
-
-        <snapshotRepository>
-            <id>JRebirth-Snapshot</id>
-            <name>JRebirth Snasphots Repository</name>
-            <url>http://repo.jrebirth.org/jrebirth-snapshot-local</url>
-        </snapshotRepository>
-
-        <site>
-            <id>JRebirth_Sites</id>
-            <name>JRebirth Sites</name>
-            <url>ftp://jrebirth.org/sites/${project.groupId}.${project.artifactId}-${project.version}</url>
-        </site>
-
-    </distributionManagement>
+	<repositories>
+		<repository>
+			<id>JRebirth Maven Repository</id>
+			<url>http://repo.jrebirth.org/libs-release</url>
+		</repository>
+		<repository>
+			<id>JRebirth Maven Snapshot Repository</id>
+			<url>http://repo.jrebirth.org/libs-snapshot</url>
+		</repository>
+	</repositories>
 
 </project>
