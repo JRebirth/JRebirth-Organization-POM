@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jrebirth</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<packaging>pom</packaging>
 	<name>JRebirth OSS</name>
@@ -33,13 +33,13 @@
 
 	<ciManagement>
 		<system>Jenkins</system>
-		<url>http://ci.jrebirth.org/job/JRebirth-master</url>
+		<url>http://ci.jrebirth.org/job/JRebirth-Parent-master/</url>
 	</ciManagement>
 
 	<scm>
-		<connection>scm:git:git://github.com/JRebirth/JRebirth.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/JRebirth/JRebirth.git</developerConnection>
-		<url>https://github.com/JRebirth/JRebirth</url>
+		<connection>scm:git:git://github.com/JRebirth/JRebirth-Parent-POM.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/JRebirth/JRebirth-Parent-POM.git</developerConnection>
+		<url>https://github.com/JRebirth/JRebirth-Parent-POM</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -133,6 +133,20 @@
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<preparationGoals>clean install</preparationGoals>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -328,7 +342,7 @@
 				<snapshotRepositoryUrl>http://repo.jrebirth.org/jrebirth-snapshot-local</snapshotRepositoryUrl>
 			</properties>
 		</profile>
-		
+
 		<profile>
 			<id>Bintray</id>
 			<properties>
