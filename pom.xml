@@ -159,7 +159,7 @@
 						<id>attach-sources</id>
 						<goals>
 							<goal>jar-no-fork</goal>
-							<goal>test-jar-no-fork</goal>
+							<!-- <goal>test-jar-no-fork</goal> -->
 						</goals>
 					</execution>
 				</executions>
@@ -175,7 +175,7 @@
 						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
-							<goal>test-jar</goal>
+							<!-- <goal>test-jar</goal> -->
 						</goals>
 					</execution>
 				</executions>
@@ -233,7 +233,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.6.3.201306030806</version>
+				<version>0.6.4.201312101107</version>
 				<executions>
 					<execution>
 						<goals>
