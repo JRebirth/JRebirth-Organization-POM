@@ -4,7 +4,7 @@
 
 	<groupId>org.jrebirth</groupId>
 	<artifactId>organization</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.0.1</version>
 
 	<packaging>pom</packaging>
 	<name>JRebirth OSS</name>
@@ -117,8 +117,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<!-- <compilerArguments> <bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/jfxrt.jar</bootclasspath> </compilerArguments> -->
 				</configuration>
 			</plugin>
@@ -136,7 +136,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
+				<version>2.3</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -184,7 +184,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.5</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -231,7 +231,7 @@
 			<plugin>
 				<groupId>org.codehaus.sonar</groupId>
 				<artifactId>sonar-maven3-plugin</artifactId>
-				<version>4.3.1</version>
+				<version>4.4</version>
 			</plugin>
 
 		</plugins>
@@ -288,6 +288,8 @@
 	</distributionManagement>
 
 	<profiles>
+
+		<!-- Sign all artifacts with JRebirth GPG key -->
 		<profile>
 			<id>GPG</id>
 			<build>
@@ -358,6 +360,22 @@
 				<snapshotRepositoryName>JRebirth Snasphots Repository</snapshotRepositoryName>
 				<snapshotRepositoryUrl>http://repo.jrebirth.org/jrebirth-snapshot-local</snapshotRepositoryUrl>
 			</properties>
+		</profile>
+
+		<!-- Add jfxrt.jar when jdk 1.7 is used, cleaner than adding it into bootclasspath -->
+		<profile>
+			<activation>
+				<jdk>1.7</jdk>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.oracle</groupId>
+					<artifactId>javafx-runtime</artifactId>
+					<version>2.2</version>
+					<systemPath>${java.home}/lib/jfxrt.jar</systemPath>
+					<scope>system</scope>
+				</dependency>
+			</dependencies>
 		</profile>
 
 	</profiles>
