@@ -162,9 +162,9 @@
 					</execution>
 				</executions>
 				<configuration>
-					<bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/jfxrt.jar</bootclasspath>
+					<!-- <bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/jfxrt.jar</bootclasspath> -->
 					<links>
-						<link>http://docs.oracle.com/javafx/2/api/</link>
+						<link>http://docs.oracle.com/javase/8/javafx/api/</link>
 					</links>
 					<detectLinks>false</detectLinks>
 					<show>private</show>
@@ -204,10 +204,10 @@
 				<version>2.17</version>
 				<configuration>
 					<reuseForks>false</reuseForks>
-					<additionalClasspathElements>
+					<!-- <additionalClasspathElements>
 						<additionalClasspathElement>${java.home}/lib/rt.jar</additionalClasspathElement>
 						<additionalClasspathElement>${java.home}/lib/jfxrt.jar</additionalClasspathElement>
-					</additionalClasspathElements>
+					</additionalClasspathElements> -->
 				</configuration>
 			</plugin>
 
@@ -253,9 +253,9 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
 				<configuration>
-					<bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/jfxrt.jar</bootclasspath>
+					<!-- <bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/jfxrt.jar</bootclasspath> -->
 					<links>
-						<link>http://docs.oracle.com/javafx/2/api/</link>
+						<link>http://docs.oracle.com/javase/8/javafx/api/</link>
 					</links>
 					<detectLinks>false</detectLinks>
 					<show>public</show>
