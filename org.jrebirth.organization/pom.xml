@@ -5,7 +5,7 @@
 
 	<groupId>org.jrebirth</groupId>
 	<artifactId>organization</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.1-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 	<name>JRebirth OSS</name>
@@ -263,9 +263,10 @@
 						<link>http://docs.oracle.com/javase/8/javafx/api/</link>
 					</links>
 					<detectLinks>false</detectLinks>
-					<show>public</show>
+					<show>package</show>
 					<nohelp>false</nohelp>
 					<failOnError>false</failOnError>
+					<linksource>true</linksource>
 				</configuration>
 			</plugin>
 
@@ -403,13 +404,13 @@
 						<configuration>
 							<bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/jfxrt.jar</bootclasspath>
 							<links>
-								<link>http://docs.oracle.com/javase/8/javafx/api/</link>
+								<link>http://docs.oracle.com/javafx/2/api/index.html</link>
 							</links>
 							<detectLinks>false</detectLinks>
 							<show>private</show>
 							<nohelp>true</nohelp>
 							<failOnError>false</failOnError>
-							<!-- <linksource>true</linksource> -->
+							<linksource>false</linksource>
 						</configuration>
 					</plugin>
 				</plugins>
