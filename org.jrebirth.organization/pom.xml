@@ -263,9 +263,10 @@
 
 			<!-- Project Quality -->
 			<plugin>
-				<groupId>org.codehaus.sonar</groupId>
-				<artifactId>sonar-maven3-plugin</artifactId>
-				<version>5.0.1</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<!-- Always use the latest available
+				<version>2.3</version> -->
 			</plugin>
 
 		</plugins>
