@@ -115,7 +115,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.2</version>
+				<version>3.7.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -125,7 +125,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>2.5.3</version>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<preparationGoals>clean install</preparationGoals>
@@ -135,7 +135,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.4</version>
+				<version>3.0.1</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -151,13 +151,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.1</version>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
 						<goals>
-							<goal>jar</goal>
-							<!-- <goal>test-jar</goal> -->
+							<goal>javadoc-no-fork</goal>
+							<!-- <goal>test-jar-no-fork</goal> -->
 						</goals>
 					</execution>
 				</executions>
@@ -179,13 +179,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.3</version>
+				<version>3.1.0</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.5</version>
+				<version>3.0.2</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -236,7 +236,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
+				<version>2.20.1</version>
 				<configuration>
 					<reuseForks>false</reuseForks>
 					<additionalClasspathElements>
@@ -246,11 +246,10 @@
 				</configuration>
 			</plugin>
 
-
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.2.201409121644</version>
+				<version>0.8.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -274,7 +273,7 @@
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ssh</artifactId>
-				<version>2.7</version>
+				<version>3.0.0</version>
 			</extension>
 		</extensions>
 
@@ -286,7 +285,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.1</version>
+				<version>3.0.0</version>
 				<configuration>
 					<bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/ext/jfxrt.jar</bootclasspath>
 					<additionalparam>-Xdoclint:none</additionalparam>
@@ -304,7 +303,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.18.1</version>
+				<version>2.20.1</version>
 			</plugin>
 
 		</plugins>
@@ -409,9 +408,9 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.18.1</version>
+						<version>2.20.1</version>
 						<configuration>
-							<reuseForks>false</reuseForks>
+							<reuseForks>true</reuseForks>
 							<additionalClasspathElements>
 								<additionalClasspathElement>${java.home}/lib/rt.jar</additionalClasspathElement>
 								<additionalClasspathElement>${java.home}/lib/jfxrt.jar</additionalClasspathElement>
@@ -421,12 +420,12 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.10.1</version>
+						<version>3.0.0</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
 								<goals>
-									<goal>jar</goal>
+									<goal>jar-no-fork</goal>
 									<!-- <goal>test-jar</goal> -->
 								</goals>
 							</execution>
@@ -462,7 +461,7 @@
 	<developers>
 		<developer>
 			<id>jr1</id>
-			<name>Bordes Sébastien</name>
+			<name>Sébastien</name>
 			<email>seb@jrebirth.org</email>
 			<url>blog.webeo.fr</url>
 			<organization>JRebirth</organization>
@@ -474,37 +473,13 @@
 
 		<developer>
 			<id>jr2</id>
-			<name>Bordes Céline</name>
-			<email>celine.bordes@jrebirth.org</email>
+			<name>Céline</name>
+			<email>cel@jrebirth.org</email>
 			<url>www.jrebirth.org</url>
 			<organization>JRebirth</organization>
 			<organizationUrl>www.jrebirth.org</organizationUrl>
 			<roles>
 				<role>Graphic Designer</role>
-			</roles>
-		</developer>
-
-		<developer>
-			<id>jr3</id>
-			<name>Rajmahendra Hegde</name>
-			<email>rajmahendra.hegde@jrebirth.org</email>
-			<url>http://twitter.come/rajonjava</url>
-			<organization>JUGChennai</organization>
-			<organizationUrl>http://jugchennai.in</organizationUrl>
-			<roles>
-				<role>JRebirth Developer</role>
-			</roles>
-		</developer>
-
-		<developer>
-			<id>jr4</id>
-			<name>Guruprasad Shenoy</name>
-			<email>guruprasad.shenoy@jrebirth.org</email>
-			<url />
-			<organization>JUGChennai</organization>
-			<organizationUrl>http://jugchennai.in</organizationUrl>
-			<roles>
-				<role>JRebirth Developer</role>
 			</roles>
 		</developer>
 
@@ -515,7 +490,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.11</version>
+				<version>4.12</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
