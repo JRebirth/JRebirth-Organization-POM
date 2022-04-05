@@ -4,7 +4,7 @@
 
 	<groupId>org.jrebirth</groupId>
 	<artifactId>organization</artifactId>
-	<version>2.1.0-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 	<name>JRebirth OSS</name>
@@ -15,13 +15,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- Default Parameter for Sonar -->
-		<sonar.host.url>http://quality.jrebirth.org</sonar.host.url>
-		<sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
-		<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
-		<sonar.language>java</sonar.language>
-
+		<resources.base.path></resources.base.path>
 	</properties>
 
 	<issueManagement>
@@ -87,8 +81,19 @@
 			<resource>
 				<filtering>false</filtering>
 				<directory>${basedir}/src/main/resources</directory>
+				<targetPath>${resources.base.path}</targetPath>
 				<includes>
 					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>META-INF/**</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>META-INF/**</include>
 				</includes>
 			</resource>
 		</resources>
@@ -115,7 +120,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -151,13 +156,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.0.0-M1</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
 						<goals>
-							<goal>javadoc-no-fork</goal>
-							<!-- <goal>test-jar-no-fork</goal> -->
+							<goal>jar</goal>
+							<!-- <goal>test-jar</goal> -->
 						</goals>
 					</execution>
 				</executions>
@@ -179,13 +184,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.1</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -200,43 +205,10 @@
 
 			</plugin>
 
-<!-- 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jarsigner-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<id>sign</id>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>verify</id>
-						<goals>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-
-				<configuration>
-
-					<keystore>${keystore}</keystore>
-					<keypass>${keypass}</keypass>
-					<storepass>${storepass}</storepass>
-					<storetype>${storetype}</storetype>
-
-					<alias>${keyalias}</alias>
-					
-					<removeExistingSignatures>true</removeExistingSignatures>
-					
-				</configuration>
-			</plugin> -->
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.20.1</version>
+				<version>3.0.0-M3</version>
 				<configuration>
 					<reuseForks>false</reuseForks>
 					<additionalClasspathElements>
@@ -249,7 +221,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.0</version>
+				<version>0.8.3</version>
 				<executions>
 					<execution>
 						<goals>
@@ -260,20 +232,13 @@
 				</executions>
 			</plugin>
 
-			<!-- Project Quality -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>2.5</version>
-			</plugin>
-
 		</plugins>
 
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ssh</artifactId>
-				<version>3.0.0</version>
+				<version>3.3.1</version>
 			</extension>
 		</extensions>
 
@@ -285,7 +250,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.3.1</version>
 				<configuration>
 					<bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/ext/jfxrt.jar</bootclasspath>
 					<additionalparam>-Xdoclint:none</additionalparam>
@@ -408,7 +373,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.20.1</version>
+						<version>3.0.0-M4</version>
 						<configuration>
 							<reuseForks>true</reuseForks>
 							<additionalClasspathElements>
@@ -420,7 +385,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.0.0</version>
+						<version>3.3.1</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
@@ -463,7 +428,7 @@
 			<id>jr1</id>
 			<name>Sébastien</name>
 			<email>seb@jrebirth.org</email>
-			<url>blog.webeo.fr</url>
+			<url>blog.jrebrith.org</url>
 			<organization>JRebirth</organization>
 			<organizationUrl>www.jrebirth.org</organizationUrl>
 			<roles>
@@ -490,7 +455,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.12</version>
+				<version>4.13.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
