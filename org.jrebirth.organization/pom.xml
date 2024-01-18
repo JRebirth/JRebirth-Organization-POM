@@ -15,7 +15,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<resources.base.path></resources.base.path>
+		<resources.base.path>${project.build.outputDirectory}</resources.base.path>
 	</properties>
 
 	<issueManagement>
