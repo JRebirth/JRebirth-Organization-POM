@@ -4,7 +4,7 @@
 
 	<groupId>org.jrebirth</groupId>
 	<artifactId>organization</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.0</version>
 
 	<packaging>pom</packaging>
 	<name>JRebirth OSS</name>
@@ -16,7 +16,7 @@
 	<properties>
 		<project.scm.id>github</project.scm.id>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<resources.base.path></resources.base.path>
+		<resources.base.path />
 	</properties>
 
 	<issueManagement>
@@ -33,7 +33,8 @@
 		<connection>scm:git:git://github.com/JRebirth/JRebirth-Organization-POM.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/JRebirth/JRebirth-Organization-POM</developerConnection>
 		<url>https://github.com/JRebirth/JRebirth-Organization-POM</url>
-	</scm>
+	  <tag>organization-4.0.0</tag>
+  </scm>
 
 	<organization>
 		<name>JRebirth OSS</name>
