@@ -1,0 +1,58 @@
+name: Reusable Maven GitHub Packages snapshot
+
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        description: Temurin JDK major version
+        type: string
+        required: false
+        default: "25"
+      pom-path:
+        description: Path to the root POM to build/deploy
+        type: string
+        required: true
+      maven-args:
+        description: Maven goals and flags (after -f pom)
+        type: string
+        required: false
+        default: "-B -Pgithub-packages deploy"
+      settings-url:
+        description: Raw URL of maven-settings.xml (Organization-POM default)
+        type: string
+        required: false
+        default: "https://raw.githubusercontent.com/JRebirth/JRebirth-Organization-POM/master/.github/maven-settings.xml"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  deploy-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ inputs.java-version }}
+          cache: maven
+
+      - name: Maven settings (GitHub Packages)
+        env:
+          SETTINGS_URL: ${{ inputs.settings-url }}
+        run: |
+          mkdir -p "$HOME/.m2"
+          if [[ -f .github/maven-settings.xml ]]; then
+            cp .github/maven-settings.xml "$HOME/.m2/settings.xml"
+          else
+            curl -fsSL "$SETTINGS_URL" -o "$HOME/.m2/settings.xml"
+          fi
+
+      - name: Deploy SNAPSHOT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn -f "${{ inputs.pom-path }}" ${{ inputs.maven-args }}

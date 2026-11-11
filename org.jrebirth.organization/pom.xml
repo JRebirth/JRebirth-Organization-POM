@@ -315,6 +315,78 @@
 		</snapshotRepository>
 	</distributionManagement>
 
+	<!-- GitHub Packages feeds used by JRebirth consumers (SNAPSHOT resolution). -->
+	<repositories>
+		<repository>
+			<id>github-jrebirth-org</id>
+			<name>JRebirth Organization Packages</name>
+			<url>https://maven.pkg.github.com/JRebirth/JRebirth-Organization-POM</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>github-jrebirth-af</id>
+			<name>JRebirth AF Packages</name>
+			<url>https://maven.pkg.github.com/JRebirth/JRebirth</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>github-jrebirth-ria</id>
+			<name>JRebirth RIA Packages</name>
+			<url>https://maven.pkg.github.com/JRebirth/JRebirth-RIA-POM</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>github-jrebirth-org</id>
+			<name>JRebirth Organization Packages</name>
+			<url>https://maven.pkg.github.com/JRebirth/JRebirth-Organization-POM</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>github-jrebirth-af</id>
+			<name>JRebirth AF Packages</name>
+			<url>https://maven.pkg.github.com/JRebirth/JRebirth</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>github-jrebirth-ria</id>
+			<name>JRebirth RIA Packages</name>
+			<url>https://maven.pkg.github.com/JRebirth/JRebirth-RIA-POM</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<profiles>
 
 		<!-- Sign all artifacts with JRebirth GPG key -->
@@ -351,6 +423,19 @@
 				<snapshotRepositoryId>JRebirth-Snapshot</snapshotRepositoryId>
 				<snapshotRepositoryName>JRebirth Snasphots Repository</snapshotRepositoryName>
 				<snapshotRepositoryUrl>http://repo.jrebirth.org/jrebirth-snapshot-local</snapshotRepositoryUrl>
+			</properties>
+		</profile>
+
+		<!-- Deploy SNAPSHOTs / releases to this repo's GitHub Packages -->
+		<profile>
+			<id>github-packages</id>
+			<properties>
+				<repositoryId>github</repositoryId>
+				<repositoryName>GitHub Packages Releases</repositoryName>
+				<repositoryUrl>https://maven.pkg.github.com/JRebirth/JRebirth-Organization-POM</repositoryUrl>
+				<snapshotRepositoryId>github</snapshotRepositoryId>
+				<snapshotRepositoryName>GitHub Packages Snapshots</snapshotRepositoryName>
+				<snapshotRepositoryUrl>https://maven.pkg.github.com/JRebirth/JRebirth-Organization-POM</snapshotRepositoryUrl>
 			</properties>
 		</profile>
 	</profiles>

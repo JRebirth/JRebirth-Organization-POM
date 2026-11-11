@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  CI settings for GitHub Packages publish + resolve.
+  Server id "github" matches the github-packages Maven profile distributionManagement.
+  Consumer repo ids (github-jrebirth-*) use the same token for SNAPSHOT resolution.
+  Active profile jrebirth-github-packages is required so parent POMs (organization)
+  resolve before the reactor POM's own <repositories> are available.
+-->
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+  <servers>
+    <server>
+      <id>github</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>github-jrebirth-org</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>github-jrebirth-af</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>github-jrebirth-ria</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>jrebirth-github-packages</id>
+      <repositories>
+        <repository>
+          <id>github-jrebirth-org</id>
+          <url>https://maven.pkg.github.com/JRebirth/JRebirth-Organization-POM</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>github-jrebirth-af</id>
+          <url>https://maven.pkg.github.com/JRebirth/JRebirth</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>github-jrebirth-ria</id>
+          <url>https://maven.pkg.github.com/JRebirth/JRebirth-RIA-POM</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>github-jrebirth-org</id>
+          <url>https://maven.pkg.github.com/JRebirth/JRebirth-Organization-POM</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>github-jrebirth-af</id>
+          <url>https://maven.pkg.github.com/JRebirth/JRebirth</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>github-jrebirth-ria</id>
+          <url>https://maven.pkg.github.com/JRebirth/JRebirth-RIA-POM</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>jrebirth-github-packages</activeProfile>
+  </activeProfiles>
+</settings>
