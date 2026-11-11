@@ -4,14 +4,18 @@ name: Release to Maven Central
 # Local credentials in ~/.m2/settings.xml are NOT available here — use GitHub secrets.
 #
 # Triggers:
-#   - Push tag organization-X.Y.Z (POM must already be non-SNAPSHOT X.Y.Z, or use workflow_dispatch)
+#   - Push tag organization-X.Y.Z
 #   - Manual workflow_dispatch with a release version
 #
 # Required repository secrets:
 #   CENTRAL_USERNAME   — Central Portal user token username (settings.xml <server><id>central</id>)
 #   CENTRAL_TOKEN      — Central Portal user token password
-#   GPG_PRIVATE_KEY    — ASCII-armored private key (gpg --export-secret-keys --armor <keyid>)
+#   GPG_PRIVATE_KEY    — ASCII-armored private key:
+#                        gpg --armor --export-secret-keys <KEYID>
 #   GPG_PASSPHRASE     — passphrase for that key
+#
+# Signing uses maven-gpg-plugin Bouncy Castle signer (-Dgpg.signer=bc) so the key
+# is read from MAVEN_GPG_KEY — no gpg keyring import on the runner.
 
 on:
   push:
@@ -41,9 +45,33 @@ jobs:
     runs-on: ubuntu-latest
     env:
       POM: org.jrebirth.organization/pom.xml
+      CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+      CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+      MAVEN_GPG_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Preflight secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          fail=0
+          for name in CENTRAL_USERNAME CENTRAL_TOKEN MAVEN_GPG_KEY MAVEN_GPG_PASSPHRASE; do
+            val="${!name}"
+            if [[ -z "${val}" ]]; then
+              echo "::error::Secret/env ${name} is empty or missing in repo Actions secrets"
+              fail=1
+            else
+              echo "${name}: present (${#val} chars)"
+            fi
+          done
+          if [[ -n "${MAVEN_GPG_KEY}" ]] && ! grep -Eq 'BEGIN (PGP |OPENPGP )?PRIVATE KEY' <<< "${MAVEN_GPG_KEY}"; then
+            echo "::error::GPG_PRIVATE_KEY must be ASCII-armored (gpg --armor --export-secret-keys <KEYID>)"
+            fail=1
+          fi
+          exit "${fail}"
 
       - name: Resolve release version
         id: ver
@@ -63,7 +91,7 @@ jobs:
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "Resolved release version: ${VERSION}"
 
-      - name: Set up JDK + Central credentials + GPG
+      - name: Set up JDK + Central credentials
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -72,8 +100,6 @@ jobs:
           server-id: central
           server-username: CENTRAL_USERNAME
           server-password: CENTRAL_TOKEN
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Set POM version
         run: >
@@ -84,9 +110,6 @@ jobs:
 
       - name: Deploy to Maven Central
         env:
-          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           # Tags always auto-publish; workflow_dispatch uses the checkbox input.
           AUTO_PUBLISH: ${{ github.event_name != 'workflow_dispatch' || inputs.auto_publish }}
         run: |
@@ -103,6 +126,8 @@ jobs:
               -Dcentral.publishing.waitUntil=validated
             )
           fi
+          # BC signer reads MAVEN_GPG_KEY / MAVEN_GPG_PASSPHRASE (no gpg keyring).
           mvn -f "${POM}" -B -Pdeploy-central clean deploy \
             -DskipTests \
+            -Dgpg.signer=bc \
             "${EXTRA[@]}"

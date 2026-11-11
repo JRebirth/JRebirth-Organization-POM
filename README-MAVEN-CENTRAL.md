@@ -12,10 +12,19 @@ Repo → **Settings → Secrets and variables → Actions**:
 |---|---|
 | `CENTRAL_USERNAME` | Central user-token username (`<server><id>central</id>` in settings.xml) |
 | `CENTRAL_TOKEN` | Central user-token password |
-| `GPG_PRIVATE_KEY` | ASCII-armored secret key (`gpg --export-secret-keys --armor KEYID`) |
+| `GPG_PRIVATE_KEY` | Full ASCII-armored secret key (including `BEGIN` / `END` lines) |
 | `GPG_PASSPHRASE` | Passphrase for that key |
 
+Export the GPG secret (preserve newlines when pasting into the GitHub secret):
+
+```bash
+gpg --list-secret-keys --keyid-format LONG
+gpg --armor --export-secret-keys KEYID
+```
+
 Generate a Central token at [central.sonatype.com](https://central.sonatype.com/) → account → **View User Token**.
+
+CI signs with `maven-gpg-plugin` **Bouncy Castle** (`-Dgpg.signer=bc`) via env `MAVEN_GPG_KEY` — it does **not** import into the runner `gpg` keyring. If the publish job fails with `no default secret key`, the `GPG_PRIVATE_KEY` secret is missing, empty, or not ASCII-armored.
 
 ## Local publish (manual)
 

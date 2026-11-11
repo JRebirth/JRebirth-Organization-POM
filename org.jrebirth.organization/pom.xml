@@ -27,6 +27,8 @@
 		<central.publishing.waitUntil>validated</central.publishing.waitUntil>
 		<!-- GnuPG binary; override in ~/.m2/settings.xml if needed (Windows: full path to gpg.exe). -->
 		<gpg.executable>gpg</gpg.executable>
+		<!-- Default: native gpg. CI sets env MAVEN_GPG_KEY → profile gpg-bc-ci flips this to bc. -->
+		<gpg.signer>gpg</gpg.signer>
 	</properties>
 
 	<ciManagement>
@@ -461,8 +463,9 @@
 							</execution>
 						</executions>
 						<configuration>
+							<!-- gpg (local agent) or bc (CI: MAVEN_GPG_KEY env). -->
+							<signer>${gpg.signer}</signer>
 							<gpgExecutable>${gpg.executable}</gpgExecutable>
-							<!-- CI (GitHub Actions): setup-java imports key; loopback avoids pinentry TTY. -->
 							<gpgArguments>
 								<arg>--pinentry-mode</arg>
 								<arg>loopback</arg>
@@ -471,6 +474,22 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+
+		<!--
+			When MAVEN_GPG_KEY is set (GitHub Actions secret → env), use Bouncy Castle
+			signer so signing does not need a gpg keyring on the runner.
+		-->
+		<profile>
+			<id>gpg-bc-ci</id>
+			<activation>
+				<property>
+					<name>env.MAVEN_GPG_KEY</name>
+				</property>
+			</activation>
+			<properties>
+				<gpg.signer>bc</gpg.signer>
+			</properties>
 		</profile>
 
 		<!-- Deploy SNAPSHOTs / releases to this repo's GitHub Packages -->
