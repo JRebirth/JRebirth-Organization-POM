@@ -55,4 +55,7 @@ jobs:
       - name: Deploy SNAPSHOT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn -f "${{ inputs.pom-path }}" ${{ inputs.maven-args }}
+        # set +H disables bash history expansion so -pl '!module' works if callers use it
+        run: |
+          set +H
+          mvn -f "${{ inputs.pom-path }}" ${{ inputs.maven-args }}
