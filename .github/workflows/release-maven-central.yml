@@ -1,0 +1,108 @@
+name: Release to Maven Central
+
+# Publishes org.jrebirth:organization to the Sonatype Central Publisher Portal.
+# Local credentials in ~/.m2/settings.xml are NOT available here — use GitHub secrets.
+#
+# Triggers:
+#   - Push tag organization-X.Y.Z (POM must already be non-SNAPSHOT X.Y.Z, or use workflow_dispatch)
+#   - Manual workflow_dispatch with a release version
+#
+# Required repository secrets:
+#   CENTRAL_USERNAME   — Central Portal user token username (settings.xml <server><id>central</id>)
+#   CENTRAL_TOKEN      — Central Portal user token password
+#   GPG_PRIVATE_KEY    — ASCII-armored private key (gpg --export-secret-keys --armor <keyid>)
+#   GPG_PASSPHRASE     — passphrase for that key
+
+on:
+  push:
+    tags:
+      - "organization-*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 6.0.0). Sets POM version before deploy."
+        required: true
+        type: string
+      auto_publish:
+        description: "Auto-publish on Central after validation"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maven-central-organization
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      POM: org.jrebirth.organization/pom.xml
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve release version
+        id: ver
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="${{ inputs.version }}"
+          else
+            TAG="${GITHUB_REF_NAME}"
+            VERSION="${TAG#organization-}"
+          fi
+          if [[ -z "${VERSION}" || "${VERSION}" == *SNAPSHOT* ]]; then
+            echo "::error::Refusing SNAPSHOT or empty version: '${VERSION}'"
+            exit 1
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Resolved release version: ${VERSION}"
+
+      - name: Set up JDK + Central credentials + GPG
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+          server-id: central
+          server-username: CENTRAL_USERNAME
+          server-password: CENTRAL_TOKEN
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Set POM version
+        run: >
+          mvn -f "${POM}" -B
+          org.codehaus.mojo:versions-maven-plugin:2.18.0:set
+          -DnewVersion=${{ steps.ver.outputs.version }}
+          -DgenerateBackupPoms=false
+
+      - name: Deploy to Maven Central
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          # Tags always auto-publish; workflow_dispatch uses the checkbox input.
+          AUTO_PUBLISH: ${{ github.event_name != 'workflow_dispatch' || inputs.auto_publish }}
+        run: |
+          set -euo pipefail
+          EXTRA=()
+          if [[ "${AUTO_PUBLISH}" == "true" ]]; then
+            EXTRA+=(
+              -Dcentral.publishing.autoPublish=true
+              -Dcentral.publishing.waitUntil=published
+            )
+          else
+            EXTRA+=(
+              -Dcentral.publishing.autoPublish=false
+              -Dcentral.publishing.waitUntil=validated
+            )
+          fi
+          mvn -f "${POM}" -B -Pdeploy-central clean deploy \
+            -DskipTests \
+            "${EXTRA[@]}"

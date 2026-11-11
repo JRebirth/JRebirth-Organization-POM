@@ -16,9 +16,17 @@
 	<properties>
 		<project.scm.id>github</project.scm.id>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>25</maven.compiler.release>
-        <javafx.version>26</javafx.version>
+		<maven.compiler.release>25</maven.compiler.release>
+		<javafx.version>26</javafx.version>
 		<resources.base.path />
+
+		<!-- Maven Central Portal: credentials via settings.xml server id (see Sonatype docs). -->
+		<central.publishing.maven.plugin.version>0.12.0</central.publishing.maven.plugin.version>
+		<central.publishing.serverId>central</central.publishing.serverId>
+		<central.publishing.autoPublish>false</central.publishing.autoPublish>
+		<central.publishing.waitUntil>validated</central.publishing.waitUntil>
+		<!-- GnuPG binary; override in ~/.m2/settings.xml if needed (Windows: full path to gpg.exe). -->
+		<gpg.executable>gpg</gpg.executable>
 	</properties>
 
 	<ciManagement>
@@ -253,7 +261,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
-					<version>3.2.4</version>
+					<version>3.2.8</version>
+				</plugin>
+				<plugin>
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<version>${central.publishing.maven.plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -406,24 +419,58 @@
 								</goals>
 							</execution>
 						</executions>
+						<configuration>
+							<gpgExecutable>${gpg.executable}</gpgExecutable>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
 
-		<!-- Central repository for own tests & development -->
+		<!--
+			Maven Central Publisher Portal (https://central.sonatype.org/publish/publish-portal-maven/).
+			Requires settings.xml server id matching ${central.publishing.serverId} (default: central).
+			Local:  mvn -Pdeploy-central clean deploy
+			CI:     same profile; set -Dcentral.publishing.autoPublish=true -Dcentral.publishing.waitUntil=published
+		-->
 		<profile>
-			<id>Central</id>
-			<properties>
-				<!-- Release repository -->
-				<repositoryId>JRebirth-Release</repositoryId>
-				<repositoryName>JRebirth Releases Repository</repositoryName>
-				<repositoryUrl>http://repo.jrebirth.org/jrebirth-release-local</repositoryUrl>
-				<!-- Snapshot repository -->
-				<snapshotRepositoryId>JRebirth-Snapshot</snapshotRepositoryId>
-				<snapshotRepositoryName>JRebirth Snasphots Repository</snapshotRepositoryName>
-				<snapshotRepositoryUrl>http://repo.jrebirth.org/jrebirth-snapshot-local</snapshotRepositoryUrl>
-			</properties>
+			<id>deploy-central</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<configuration>
+							<publishingServerId>${central.publishing.serverId}</publishingServerId>
+							<autoPublish>${central.publishing.autoPublish}</autoPublish>
+							<waitUntil>${central.publishing.waitUntil}</waitUntil>
+							<deploymentName>org.jrebirth:organization:${project.version}</deploymentName>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<gpgExecutable>${gpg.executable}</gpgExecutable>
+							<!-- CI (GitHub Actions): setup-java imports key; loopback avoids pinentry TTY. -->
+							<gpgArguments>
+								<arg>--pinentry-mode</arg>
+								<arg>loopback</arg>
+							</gpgArguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 		<!-- Deploy SNAPSHOTs / releases to this repo's GitHub Packages -->
